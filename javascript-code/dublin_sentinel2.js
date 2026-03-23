@@ -2,7 +2,7 @@
 // Bathymetry Layer Creation for Dublin using Lyzenga 1978 using Sentinel-2
 // ==========================================================================
 
-// ---------------------- PARAMETERS ----------------------
+// ---------------------- PARAMETERS -------------------------------------
 var split = 0.7;
 var depthName = 'Depth';
 var CLOUD_THRES = 100;
