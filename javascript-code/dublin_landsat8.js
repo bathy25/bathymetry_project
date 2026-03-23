@@ -1,5 +1,5 @@
 // ========================================================================
-// Bathymetry Layer Creation for Dublin using Lyzenga 1978b using Landsat-8
+// Bathymetry Layer Creation for Dublin using Lyzenga 1978 using Landsat-8
 // =========================================================================
 
 // ---------------------- PARAMETERS ----------------------
