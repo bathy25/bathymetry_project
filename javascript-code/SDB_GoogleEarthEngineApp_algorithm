@@ -66,7 +66,7 @@ var logoImage = logoRaw2.updateMask(nonBlackMask).visualize({
 // Thumbnail: 3x the original size (e.g. if 300x100 → 900x300)
 var logoThumb = ui.Thumbnail({
   image: logoImage,
-  params: {dimensions: '700x300'},
+  params: {dimensions: '1200x300'},
   style: {
     width: '100%',       // stretch horizontally
     height: 'auto',      // preserve aspect ratio
@@ -96,17 +96,85 @@ var chartPanel = ui.Panel({ style: panelStyle });
 // Results panel
 var resultsPanel = ui.Panel({ style: panelStyle });
 
-// ----------------------- Title ---------------------------------------------------------
-mainPanel.add(ui.Label({
-  value: '🌊Satellite-Derived Bathymetry (SDB) for Irish Coastal Bays🌊',
+// ----------------------- Previous Title (in case we need to re-use)---------------------------------------------------------
+//mainPanel.add(ui.Label({
+ // value: '🌊 Satellite-Derived Bathymetry for Irish Coastal Bays (SDBGEEnie) 🌊',
+//  style: {
+ //   fontWeight: 'bold',
+  //  fontSize: '34px',
+  //  color: '#56809a',
+ //   margin: '10px 0 10px 0',
+  //  textAlign: 'center'
+ // }
+//}));
+
+// ----------------------- Title with Logo (inside a box) -------------------------
+
+// Load logo asset
+var rawLogo = ee.Image('projects/ee-bathymetryproject/assets/EEA/logo_SDBnie');
+
+// Force visualization so it always displays
+var logoVis = rawLogo.visualize({
+  min: 0,
+  max: 255
+});
+
+// High‑quality thumbnail
+var logo = ui.Thumbnail({
+  image: logoVis,
+  params: {dimensions: 350},
+  style: {
+    width: '150px',
+    height: '150px',
+    margin: '0 auto 10px auto',
+    border: 'none'
+  }
+});
+
+// Title label (centered, wraps naturally)
+var titleLabel = ui.Label({
+  value: 'SDB GEEnie (Satellite-Derived Bathymetry for Irish Coastal Bays using Google Earth Engine)',
   style: {
     fontWeight: 'bold',
-    fontSize: '28px',
-    color: '#0066FF',
-    margin: '10px 0 10px 0',
+    fontSize: '30px',
+    color: '#007bb8',
+    textAlign: 'center',
+    whiteSpace: 'normal',
+    margin: '0 auto',
+    stretch: 'horizontal'
+  }
+});
+
+// Inner wrapper (logo + title)
+var titleWrapper = ui.Panel({
+  layout: ui.Panel.Layout.flow('vertical'),
+  style: {
+    width: '100%',
     textAlign: 'center'
   }
-}));
+});
+
+titleWrapper.add(logo);
+titleWrapper.add(titleLabel);
+
+// Outer box container
+var titleBox = ui.Panel({
+  widgets: [titleWrapper],
+  layout: ui.Panel.Layout.flow('vertical'),
+  style: {
+    width: '100%',
+    padding: '20px',
+    margin: '10px 0 30px 0',
+    backgroundColor: '#f7f9fb',
+    border: '1px solid #d0d7de',
+    borderRadius: '12px',
+    textAlign: 'center'
+  }
+});
+
+// Add to main panel
+mainPanel.add(titleBox);
+
 
 // ----------------------- Description ---------------------------------------------------
 mainPanel.add(ui.Label({
@@ -184,6 +252,8 @@ mainPanel.add(ui.Label({
     fontWeight: 'bold'
   }
 }));
+
+
 
 // ----------------------- Allowed Years per Bay ------------------------
 var bayYears = {'Dublin': [2022], 'Dungarvan': [2022], 'Portrane': [2021], 'Rosses': [2020], 'Tramore': [2022]};
@@ -739,3 +809,4 @@ Map.addLayer(bayAssets.Dungarvan.poi, { color: 'blue' }, 'Dungarvan POI');
 Map.addLayer(bayAssets.Portrane.poi, { color: 'white' }, 'Portrane POI');
 Map.addLayer(bayAssets.Rosses.poi, { color: 'yellow' }, 'Rosses POI');
 Map.addLayer(bayAssets.Tramore.poi, { color: 'white' }, 'Tramore POI');
+
